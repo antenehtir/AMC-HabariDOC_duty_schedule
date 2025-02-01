@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>American Medical Center Duty Schedule</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="https://ethiojobs.info/wp-content/uploads/2022/03/American-Medical-Center-.jpg" alt="American Medical Center Logo" id="logo" />
+      <h1>American Medical Center Duty Schedule</h1>
+    </header>
+
+    <div class="tabs">
+      <button class="tablinks" onclick="openTab(event, 'today')" id="defaultOpen">Today's Duty</button>
+      <button class="tablinks" onclick="openTab(event, 'selectDate')">Select Date</button>
+      <button class="tablinks" onclick="openTab(event, 'download')">Download Schedule</button>
+    </div>
+
+    <!-- Today's Duty Tab -->
+    <div id="today" class="tabcontent">
+      <h2>Today's Duty</h2>
+      <div id="todayDisplay"></div>
+    </div>
+
+    <!-- Select Date Tab -->
+    <div id="selectDate" class="tabcontent">
+      <h2>Select Date</h2>
+      <form id="dateForm">
+        <label for="dateInput">Date:</label>
+        <input type="date" id="dateInput" required />
+        <label for="sectionSelect">Section:</label>
+        <select id="sectionSelect">
+          <option value="opd">OPD and ER</option>
+          <option value="ward">Ward and ICU</option>
+        </select>
+        <button type="submit">Show Duty Physician</button>
+      </form>
+      <div id="selectedDisplay"></div>
+    </div>
+
+    <!-- Download Schedule Tab -->
+    <div id="download" class="tabcontent">
+      <h2>Download Monthly Schedule</h2>
+      <form id="downloadForm">
+        <label for="monthSelect">Month:</label>
+        <select id="monthSelect"></select>
+        <label for="yearSelect">Year:</label>
+        <input type="number" id="yearSelect" value="2025" min="2000" max="2100" />
+        <button type="submit">Download CSV</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

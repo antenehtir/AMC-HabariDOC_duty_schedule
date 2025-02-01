@@ -1,0 +1,139 @@
+/* Global Styles and Background */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url("https://lh3.googleusercontent.com/p/AF1QipMNTto28OWj9JGQkem4a5HX7FTdBWb0Ru9e3O9w=s1360-w1360-h1020") no-repeat center center fixed;
+  background-size: cover;
+  color: #333;
+}
+
+/* Container for content to add some contrast */
+.container {
+  background-color: rgba(255, 255, 255, 0.95);
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 800px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+/* Header with logo */
+header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+#logo {
+  width: 80px;
+  margin-right: 20px;
+}
+header h1 {
+  font-size: 1.8em;
+  color: #444;
+}
+
+/* Tabs */
+.tabs {
+  overflow: hidden;
+  background-color: #FFDAB9; /* Light Orange */
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 0;
+}
+.tabs button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: background-color 0.3s;
+  font-size: 16px;
+}
+.tabs button:hover {
+  background-color: #FFC090;
+}
+.tabs button.active {
+  background-color: #FFB56B;
+  color: #fff;
+}
+
+/* Tab content */
+.tabcontent {
+  display: none;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+.tabcontent h2 {
+  margin-top: 0;
+}
+
+/* Form Styles */
+form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+form input[type="date"],
+form input[type="number"],
+form select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+form button {
+  margin-top: 15px;
+  padding: 10px 15px;
+  border: none;
+  background-color: #FFB56B;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+form button:hover {
+  background-color: #FFA85F;
+}
+
+/* Duty Display Styles */
+.duty-section {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.duty-section h3 {
+  margin-top: 0;
+  color: #FF8C42;
+}
+.duty-section button {
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-left: 10px;
+  background-color: #FFB56B;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+}
+.duty-section button:hover {
+  background-color: #FFA85F;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+  #logo {
+    margin-bottom: 10px;
+  }
+  .tabs button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
