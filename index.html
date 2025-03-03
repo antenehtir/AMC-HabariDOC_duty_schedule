@@ -31,25 +31,27 @@
       <form id="dateForm">
         <label for="dateInput">Date:</label>
         <input type="date" id="dateInput" required />
-        <label for="sectionSelect">Section:</label>
-        <select id="sectionSelect">
-          <option value="opd">OPD and ER</option>
-          <option value="ward">Ward and ICU</option>
+        <label for="shiftSelect">Shift:</label>
+        <select id="shiftSelect">
+          <option value="day">Day Shift</option>
+          <option value="night">Night Shift</option>
         </select>
-        <button type="submit">Show Duty Physician</button>
+        <button type="submit">Show Duty Physicians</button>
       </form>
       <div id="selectedDisplay"></div>
     </div>
 
     <!-- Download Schedule Tab -->
     <div id="download" class="tabcontent">
-      <h2>Download Monthly Schedule</h2>
+      <h2>Download Night Shift Schedule (Word)</h2>
       <form id="downloadForm">
         <label for="monthSelect">Month:</label>
         <select id="monthSelect"></select>
         <label for="yearSelect">Year:</label>
         <input type="number" id="yearSelect" value="2025" min="2000" max="2100" />
-        <button type="submit">Download CSV</button>
+        <div class="export-buttons">
+          <button type="submit" id="docExport">Download DOC</button>
+        </div>
       </form>
     </div>
   </div>
