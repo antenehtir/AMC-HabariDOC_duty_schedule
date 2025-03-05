@@ -33,9 +33,21 @@ const marchSchedule = [
   { opd: "Dr. Genet",  ward: "Dr. Helina" }           // Mar 31 (Monday)
 ];
 
-// For weekdays, day shift is fixed.
+// For weekdays, the day shift is fixed. 
+// Current assignment for March 2025: 
+// OPD and ER: Dr. Genet, Ward and ICU: Dr. Miftah.
 function getDayShiftDuty(date) {
-  return { opd: "Dr. Miftah", ward: "Dr. Genet" };
+  return { opd: "Dr. Genet", ward: "Dr. Miftah" };
+}
+
+// To handle the night shift timing: if current time is before 8 AM, 
+// use the previous day’s duty (so that a Monday 1 AM shows Sunday’s night shift).
+function getEffectiveNightDate(date) {
+  const effective = new Date(date);
+  if (date.getHours() < 8) {
+    effective.setDate(effective.getDate() - 1);
+  }
+  return effective;
 }
 
 // Tab switching function
@@ -59,23 +71,27 @@ function isWeekend(date) {
   return (day === 0 || day === 6);
 }
 
-// For March 2025, get night shift duty from marchSchedule
-function getMarchDuty(date) {
-  if (date.getFullYear() === 2025 && date.getMonth() === 2) {
+// For March 2025, get the night shift duty from marchSchedule.
+// For other months, default to "N/A".
+function getNightDuty(date) {
+  if (date.getFullYear() === 2025 && date.getMonth() === 2) { // March = month 2
     return marchSchedule[date.getDate() - 1];
   } else {
     return { opd: "N/A", ward: "N/A" };
   }
 }
 
-// Display today's duty
+// Display today's duty based on current time and day.
+// If current time is before 8 AM, use effective night shift date (previous day).
 function displayTodayDuty() {
-  const today = new Date();
+  const now = new Date();
   const display = document.getElementById("todayDisplay");
-  let html = `<p><strong>Date:</strong> ${today.toLocaleDateString()}</p>`;
-  if (isWeekend(today)) {
-    // For weekends, show only Night Shift
-    const duty = getMarchDuty(today);
+  let html = `<p><strong>Date:</strong> ${now.toLocaleDateString()}</p>`;
+  
+  if (now.getHours() < 8) {
+    // Before 8 AM: show only Night Shift for previous day.
+    const effectiveDate = getEffectiveNightDate(now);
+    const duty = getNightDuty(effectiveDate);
     html += `
       <div class="duty-section">
         <h3>Night Shift</h3>
@@ -85,35 +101,52 @@ function displayTodayDuty() {
         <p><strong>Ward and ICU:</strong> ${duty.ward} 
           <button onclick="callDoctor('${duty.ward}')">Call</button>
         </p>
+        <p><em>(Effective Date: ${effectiveDate.toLocaleDateString()})</em></p>
       </div>`;
   } else {
-    // Weekdays: display both Day and Night shifts
-    const dayDuty = getDayShiftDuty(today);
-    const nightDuty = getMarchDuty(today);
-    html += `
-      <div class="duty-section">
-        <h3>Day Shift</h3>
-        <p><strong>OPD and ER:</strong> ${dayDuty.opd} 
-          <button onclick="callDoctor('${dayDuty.opd}')">Call</button>
-        </p>
-        <p><strong>Ward and ICU:</strong> ${dayDuty.ward} 
-          <button onclick="callDoctor('${dayDuty.ward}')">Call</button>
-        </p>
-      </div>
-      <div class="duty-section">
-        <h3>Night Shift</h3>
-        <p><strong>OPD and ER:</strong> ${nightDuty.opd} 
-          <button onclick="callDoctor('${nightDuty.opd}')">Call</button>
-        </p>
-        <p><strong>Ward and ICU:</strong> ${nightDuty.ward} 
-          <button onclick="callDoctor('${nightDuty.ward}')">Call</button>
-        </p>
-      </div>`;
+    // 8 AM or later:
+    if (isWeekend(now)) {
+      // On weekends, only one (night) shift is applicable.
+      const duty = getNightDuty(now);
+      html += `
+        <div class="duty-section">
+          <h3>Night Shift</h3>
+          <p><strong>OPD and ER:</strong> ${duty.opd} 
+            <button onclick="callDoctor('${duty.opd}')">Call</button>
+          </p>
+          <p><strong>Ward and ICU:</strong> ${duty.ward} 
+            <button onclick="callDoctor('${duty.ward}')">Call</button>
+          </p>
+        </div>`;
+    } else {
+      // Weekdays: show both day and night shifts.
+      const dayDuty = getDayShiftDuty(now);
+      const nightDuty = getNightDuty(now);
+      html += `
+        <div class="duty-section">
+          <h3>Day Shift</h3>
+          <p><strong>OPD and ER:</strong> ${dayDuty.opd} 
+            <button onclick="callDoctor('${dayDuty.opd}')">Call</button>
+          </p>
+          <p><strong>Ward and ICU:</strong> ${dayDuty.ward} 
+            <button onclick="callDoctor('${dayDuty.ward}')">Call</button>
+          </p>
+        </div>
+        <div class="duty-section">
+          <h3>Night Shift</h3>
+          <p><strong>OPD and ER:</strong> ${nightDuty.opd} 
+            <button onclick="callDoctor('${nightDuty.opd}')">Call</button>
+          </p>
+          <p><strong>Ward and ICU:</strong> ${nightDuty.ward} 
+            <button onclick="callDoctor('${nightDuty.ward}')">Call</button>
+          </p>
+        </div>`;
+    }
   }
   display.innerHTML = html;
 }
 
-// Call action
+// Call action: mapping phone numbers.
 function callDoctor(doctor) {
   const numbers = {
     "Dr. Dawit": "+251920192199",
@@ -142,7 +175,7 @@ document.getElementById("dateForm").addEventListener("submit", function(e) {
     const date = new Date(dateVal);
     let html = `<p><strong>Date:</strong> ${date.toLocaleDateString()}</p>`;
     if (isWeekend(date)) {
-      const duty = getMarchDuty(date);
+      const duty = getNightDuty(date);
       html += `<p><strong>Shift:</strong> Night Shift</p>
                <p><strong>OPD and ER:</strong> ${duty.opd} 
                  <button onclick="callDoctor('${duty.opd}')">Call</button>
@@ -161,7 +194,7 @@ document.getElementById("dateForm").addEventListener("submit", function(e) {
                    <button onclick="callDoctor('${duty.ward}')">Call</button>
                  </p>`;
       } else {
-        const duty = getMarchDuty(date);
+        const duty = getNightDuty(date);
         html += `<p><strong>Shift:</strong> Night Shift</p>
                  <p><strong>OPD and ER:</strong> ${duty.opd} 
                    <button onclick="callDoctor('${duty.opd}')">Call</button>
@@ -195,7 +228,7 @@ document.getElementById("downloadForm").addEventListener("submit", function(e) {
   const year = document.getElementById("yearSelect").value;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   
-  // Build a table in HTML format for Word export
+  // Build an HTML table for export
   let tableHTML = `<table border="1" cellpadding="5" cellspacing="0">
     <tr>
       <th>Date</th>
@@ -205,12 +238,7 @@ document.getElementById("downloadForm").addEventListener("submit", function(e) {
   
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
-    let duty;
-    if (isWeekend(date)) {
-      duty = (year == 2025 && month === 2) ? marchSchedule[day - 1] : {opd:"N/A", ward:"N/A"};
-    } else {
-      duty = (year == 2025 && month === 2) ? marchSchedule[day - 1] : {opd:"N/A", ward:"N/A"};
-    }
+    let duty = getNightDuty(date);
     tableHTML += `<tr>
       <td>${year}-${month+1}-${day}</td>
       <td>${duty.opd}</td>
@@ -219,9 +247,11 @@ document.getElementById("downloadForm").addEventListener("submit", function(e) {
   }
   tableHTML += `</table>`;
   
-  // Wrap the table in an HTML document with proper meta headers
+  // Wrap the table in a proper HTML document for Word
   const htmlContent = `
-    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+          xmlns:w='urn:schemas-microsoft-com:office:word' 
+          xmlns='http://www.w3.org/TR/REC-html40'>
       <head>
         <meta charset="utf-8">
         <title>Duty Schedule for ${monthNames[month]} ${year}</title>
@@ -237,7 +267,7 @@ document.getElementById("downloadForm").addEventListener("submit", function(e) {
       </body>
     </html>`;
   
-  // Create a blob with the proper MIME type and trigger download with .doc extension
+  // Create a blob with proper MIME type and trigger download as .doc file
   const blob = new Blob([htmlContent], { type: "application/vnd.ms-word" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -248,5 +278,5 @@ document.getElementById("downloadForm").addEventListener("submit", function(e) {
   document.body.removeChild(a);
 });
 
-// Display today's duty on load
+// Display today's duty on page load
 displayTodayDuty();
