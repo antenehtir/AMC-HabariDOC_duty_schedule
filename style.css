@@ -102,30 +102,25 @@ form button:hover {
   margin-top: 15px;
 }
 
-/* Duty Display Styles */
+/* Table Styles for Duty Display */
+table.duty-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+table.duty-table th, table.duty-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+table.duty-table th {
+  background-color: #FFDAB9;
+  color: #333;
+}
+
+/* Duty Display Section */
 .duty-section {
   margin-bottom: 15px;
-  padding: 10px;
-  background: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-.duty-section h3 {
-  margin-top: 0;
-  color: #FF8C42;
-}
-.duty-section button {
-  padding: 5px 10px;
-  font-size: 14px;
-  margin-left: 10px;
-  background-color: #FFB56B;
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  cursor: pointer;
-}
-.duty-section button:hover {
-  background-color: #FFA85F;
 }
 
 /* Responsive adjustments */
