@@ -1,5 +1,5 @@
-// --- April Night Shift Pattern ---
-// This array holds the night shift assignment for April (30 days) as given.
+// --- Night Shift Pattern from April ---
+// April pattern for 30 days as provided.
 const aprilPattern = [
   { opd: "Dr. Ribka", ward: "Dr. Lewam" },   // April 1
   { opd: "Dr. Dawit", ward: "Dr. Eden" },      // April 2
@@ -33,25 +33,25 @@ const aprilPattern = [
   { opd: "Dr. Helina", ward: "Dr. Genet" }      // April 30
 ];
 
-// For any given date, use the April pattern by taking the day-of-month modulo 30.
-// (For days 1–30, use the corresponding index; for day 31, wrap to index 0.)
+// For any given date, use the April pattern repeatedly.
+// (Use day-of-month modulo 30; if day is 31, it wraps to index 0.)
 function getNightDuty(date) {
-  let day = date.getDate();
-  let index = (day - 1) % 30; 
+  const day = date.getDate();
+  const index = (day - 1) % 30;
   return aprilPattern[index];
 }
 
 // Fixed Day Shift for Weekdays
-// Current assignment (for the current 2-month period):
+// Current assignment:
 //   OPD and ER: Dr. Genet
 //   Ward and ICU: Dr. Miftah
 function getDayShiftDuty(date) {
   return { opd: "Dr. Genet", ward: "Dr. Miftah" };
 }
 
-// To handle the night shift display: if the current time is before 8 AM, show the previous day’s night duty.
+// If current time is before 8 AM, use the previous day's night duty.
 function getEffectiveNightDate(date) {
-  let effective = new Date(date);
+  const effective = new Date(date);
   if (date.getHours() < 8) {
     effective.setDate(effective.getDate() - 1);
   }
@@ -60,11 +60,11 @@ function getEffectiveNightDate(date) {
 
 // --- Tab Switching ---
 function openTab(evt, tabName) {
-  let tabcontent = document.getElementsByClassName("tabcontent");
+  const tabcontent = document.getElementsByClassName("tabcontent");
   for (let i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
-  let tablinks = document.getElementsByClassName("tablinks");
+  const tablinks = document.getElementsByClassName("tablinks");
   for (let i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
@@ -75,70 +75,60 @@ document.getElementById("defaultOpen").click();
 
 // Check if a date is weekend (Saturday or Sunday)
 function isWeekend(date) {
-  let day = date.getDay();
+  const day = date.getDay();
   return (day === 0 || day === 6);
 }
 
-// --- Display Today's Duty ---
+// --- Display Today's Duty in Table Format ---
 function displayTodayDuty() {
   const now = new Date();
   const display = document.getElementById("todayDisplay");
   let html = `<p><strong>Date:</strong> ${now.toLocaleDateString()}</p>`;
   
+  // Build a table for duty display
+  html += `<table class="duty-table">
+    <tr>
+      <th>Shift</th>
+      <th>OPD and ER</th>
+      <th>Ward and ICU</th>
+    </tr>`;
+  
   if (now.getHours() < 8) {
-    // Before 8 AM, show previous day’s night shift
+    // Before 8 AM: show previous day's night shift.
     const effectiveDate = getEffectiveNightDate(now);
     const duty = getNightDuty(effectiveDate);
-    html += `
-      <div class="duty-section">
-        <h3>Night Shift</h3>
-        <p><strong>OPD and ER:</strong> ${duty.opd} 
-          <button onclick="callDoctor('${duty.opd}')">Call</button>
-        </p>
-        <p><strong>Ward and ICU:</strong> ${duty.ward} 
-          <button onclick="callDoctor('${duty.ward}')">Call</button>
-        </p>
-        <p><em>(Effective Date: ${effectiveDate.toLocaleDateString()})</em></p>
-      </div>`;
+    html += `<tr>
+      <td>Night Shift</td>
+      <td>${duty.opd} <button onclick="callDoctor('${duty.opd}')">Call</button></td>
+      <td>${duty.ward} <button onclick="callDoctor('${duty.ward}')">Call</button></td>
+    </tr>
+    <tr><td colspan="3"><em>(Effective Date: ${effectiveDate.toLocaleDateString()})</em></td></tr>`;
   } else {
     if (isWeekend(now)) {
-      // Weekends: only show Night Shift
+      // Weekends: show only night shift.
       const duty = getNightDuty(now);
-      html += `
-        <div class="duty-section">
-          <h3>Night Shift</h3>
-          <p><strong>OPD and ER:</strong> ${duty.opd} 
-            <button onclick="callDoctor('${duty.opd}')">Call</button>
-          </p>
-          <p><strong>Ward and ICU:</strong> ${duty.ward} 
-            <button onclick="callDoctor('${duty.ward}')">Call</button>
-          </p>
-        </div>`;
+      html += `<tr>
+        <td>Night Shift</td>
+        <td>${duty.opd} <button onclick="callDoctor('${duty.opd}')">Call</button></td>
+        <td>${duty.ward} <button onclick="callDoctor('${duty.ward}')">Call</button></td>
+      </tr>`;
     } else {
-      // Weekdays: show both Day and Night Shifts
+      // Weekdays: show both day and night shifts.
       const dayDuty = getDayShiftDuty(now);
       const nightDuty = getNightDuty(now);
-      html += `
-        <div class="duty-section">
-          <h3>Day Shift</h3>
-          <p><strong>OPD and ER:</strong> ${dayDuty.opd} 
-            <button onclick="callDoctor('${dayDuty.opd}')">Call</button>
-          </p>
-          <p><strong>Ward and ICU:</strong> ${dayDuty.ward} 
-            <button onclick="callDoctor('${dayDuty.ward}')">Call</button>
-          </p>
-        </div>
-        <div class="duty-section">
-          <h3>Night Shift</h3>
-          <p><strong>OPD and ER:</strong> ${nightDuty.opd} 
-            <button onclick="callDoctor('${nightDuty.opd}')">Call</button>
-          </p>
-          <p><strong>Ward and ICU:</strong> ${nightDuty.ward} 
-            <button onclick="callDoctor('${nightDuty.ward}')">Call</button>
-          </p>
-        </div>`;
+      html += `<tr>
+        <td>Day Shift</td>
+        <td>${dayDuty.opd} <button onclick="callDoctor('${dayDuty.opd}')">Call</button></td>
+        <td>${dayDuty.ward} <button onclick="callDoctor('${dayDuty.ward}')">Call</button></td>
+      </tr>
+      <tr>
+        <td>Night Shift</td>
+        <td>${nightDuty.opd} <button onclick="callDoctor('${nightDuty.opd}')">Call</button></td>
+        <td>${nightDuty.ward} <button onclick="callDoctor('${nightDuty.ward}')">Call</button></td>
+      </tr>`;
     }
   }
+  html += `</table>`;
   display.innerHTML = html;
 }
 
@@ -153,7 +143,7 @@ function callDoctor(doctor) {
     "Dr. Lewam": "+251934343144",
     "Dr. Miftah": "+251912280307"
   };
-  let num = numbers[doctor];
+  const num = numbers[doctor];
   if (num) {
     window.location.href = `tel:${num}`;
   } else {
@@ -170,43 +160,44 @@ document.getElementById("dateForm").addEventListener("submit", function(e) {
   if (dateVal) {
     const date = new Date(dateVal);
     let html = `<p><strong>Date:</strong> ${date.toLocaleDateString()}</p>`;
+    html += `<table class="duty-table">
+      <tr>
+        <th>Shift</th>
+        <th>OPD and ER</th>
+        <th>Ward and ICU</th>
+      </tr>`;
     if (isWeekend(date)) {
       const duty = getNightDuty(date);
-      html += `<p><strong>Shift:</strong> Night Shift</p>
-               <p><strong>OPD and ER:</strong> ${duty.opd} 
-                 <button onclick="callDoctor('${duty.opd}')">Call</button>
-               </p>
-               <p><strong>Ward and ICU:</strong> ${duty.ward} 
-                 <button onclick="callDoctor('${duty.ward}')">Call</button>
-               </p>`;
+      html += `<tr>
+        <td>Night Shift</td>
+        <td>${duty.opd} <button onclick="callDoctor('${duty.opd}')">Call</button></td>
+        <td>${duty.ward} <button onclick="callDoctor('${duty.ward}')">Call</button></td>
+      </tr>`;
     } else {
       if (shift === "day") {
         const duty = getDayShiftDuty(date);
-        html += `<p><strong>Shift:</strong> Day Shift</p>
-                 <p><strong>OPD and ER:</strong> ${duty.opd} 
-                   <button onclick="callDoctor('${duty.opd}')">Call</button>
-                 </p>
-                 <p><strong>Ward and ICU:</strong> ${duty.ward} 
-                   <button onclick="callDoctor('${duty.ward}')">Call</button>
-                 </p>`;
+        html += `<tr>
+          <td>Day Shift</td>
+          <td>${duty.opd} <button onclick="callDoctor('${duty.opd}')">Call</button></td>
+          <td>${duty.ward} <button onclick="callDoctor('${duty.ward}')">Call</button></td>
+        </tr>`;
       } else {
         const duty = getNightDuty(date);
-        html += `<p><strong>Shift:</strong> Night Shift</p>
-                 <p><strong>OPD and ER:</strong> ${duty.opd} 
-                   <button onclick="callDoctor('${duty.opd}')">Call</button>
-                 </p>
-                 <p><strong>Ward and ICU:</strong> ${duty.ward} 
-                   <button onclick="callDoctor('${duty.ward}')">Call</button>
-                 </p>`;
+        html += `<tr>
+          <td>Night Shift</td>
+          <td>${duty.opd} <button onclick="callDoctor('${duty.opd}')">Call</button></td>
+          <td>${duty.ward} <button onclick="callDoctor('${duty.ward}')">Call</button></td>
+        </tr>`;
       }
     }
+    html += `</table>`;
     display.innerHTML = html;
   }
 });
 
 // --- Populate Month Dropdown ---
 const monthSelect = document.getElementById("monthSelect");
-monthNames = [
+const monthNames = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
@@ -218,8 +209,7 @@ monthNames.forEach((month, index) => {
 });
 
 // --- PDF Export for Night Shift Schedule ---
-// We now export a PDF using jsPDF. The PDF will show a table for the chosen month and year,
-// using the repeating night shift pattern (from the April pattern) for each day.
+// Exports a PDF table using jsPDF based on the repeating pattern (April pattern) for any month.
 document.getElementById("downloadForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const month = parseInt(document.getElementById("monthSelect").value);
@@ -230,11 +220,10 @@ document.getElementById("downloadForm").addEventListener("submit", function(e) {
   pdfContent += "Date\tOPD and ER\tWard and ICU\n";
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
-    let duty = getNightDuty(date);
+    const duty = getNightDuty(date);
     pdfContent += `${year}-${month+1}-${day}\t${duty.opd}\t${duty.ward}\n`;
   }
   
-  // Use jsPDF to generate the PDF
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   doc.setFontSize(12);
