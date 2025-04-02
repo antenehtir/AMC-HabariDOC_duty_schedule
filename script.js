@@ -1,62 +1,70 @@
-// March 2025 schedule for night shifts (index 0 = Mar 1, index 30 = Mar 31)
-const marchSchedule = [
-  { opd: "Dr. Helina", ward: "Dr. Genet" }, // Mar 1 (Saturday)
-  { opd: "Dr. Lewam", ward: "Dr. Ribka" },   // Mar 2 (Sunday)
-  { opd: "Dr. Eden",   ward: "Dr. Dawit" },    // Mar 3 (Monday)
-  { opd: "Dr. Helina", ward: "Dr. Genet" },    // Mar 4 (Tuesday)
-  { opd: "Dr. Lewam", ward: "Dr. Ribka" },     // Mar 5 (Wednesday)
-  { opd: "Dr. Dawit",  ward: "Dr. Eden" },      // Mar 6 (Thursday)
-  { opd: "Dr. Genet",  ward: "Dr. Helina" },    // Mar 7 (Friday)
-  { opd: "Dr. Ribka",  ward: "Dr. Lewam" },     // Mar 8 (Saturday)
-  { opd: "Dr. Dawit",  ward: "Dr. Eden" },      // Mar 9 (Sunday)
-  { opd: "Dr. Genet",  ward: "Dr. Helina" },    // Mar 10 (Monday)
-  { opd: "Dr. Ribka",  ward: "Dr. Lewam" },     // Mar 11 (Tuesday)
-  { opd: "Dr. Eden",   ward: "Dr. Dawit" },      // Mar 12 (Wednesday)
-  { opd: "Dr. Helina", ward: "Dr. Genet" },      // Mar 13 (Thursday)
-  { opd: "Dr. Lewam",  ward: "Dr. Ribka" },      // Mar 14 (Friday)
-  { opd: "Dr. Eden",   ward: "Dr. Dawit" },       // Mar 15 (Saturday)
-  { opd: "Dr. Helina", ward: "Dr. Genet" },       // Mar 16 (Sunday)
-  { opd: "Dr. Lewam",  ward: "Dr. Ribka" },       // Mar 17 (Monday)
-  { opd: "Dr. Dawit",  ward: "Dr. Eden" },        // Mar 18 (Tuesday)
-  { opd: "Dr. Genet",  ward: "Dr. Helina" },       // Mar 19 (Wednesday)
-  { opd: "Dr. Ribka",  ward: "Dr. Lewam" },        // Mar 20 (Thursday)
-  { opd: "Dr. Dawit",  ward: "Dr. Eden" },         // Mar 21 (Friday)
-  { opd: "Dr. Genet",  ward: "Dr. Helina" },        // Mar 22 (Saturday)
-  { opd: "Dr. Ribka",  ward: "Dr. Lewam" },         // Mar 23 (Sunday)
-  { opd: "Dr. Eden",   ward: "Dr. Dawit" },          // Mar 24 (Monday)
-  { opd: "Dr. Helina", ward: "Dr. Genet" },          // Mar 25 (Tuesday)
-  { opd: "Dr. Lewam",  ward: "Dr. Ribka" },          // Mar 26 (Wednesday)
-  { opd: "Dr. Eden",   ward: "Dr. Dawit" },           // Mar 27 (Thursday)
-  { opd: "Dr. Helina", ward: "Dr. Genet" },           // Mar 28 (Friday)
-  { opd: "Dr. Lewam",  ward: "Dr. Ribka" },           // Mar 29 (Saturday)
-  { opd: "Dr. Dawit",  ward: "Dr. Eden" },            // Mar 30 (Sunday)
-  { opd: "Dr. Genet",  ward: "Dr. Helina" }           // Mar 31 (Monday)
+// --- April Night Shift Pattern ---
+// This array holds the night shift assignment for April (30 days) as given.
+const aprilPattern = [
+  { opd: "Dr. Ribka", ward: "Dr. Lewam" },   // April 1
+  { opd: "Dr. Dawit", ward: "Dr. Eden" },      // April 2
+  { opd: "Dr. Genet", ward: "Dr. Helina" },     // April 3
+  { opd: "Dr. Ribka", ward: "Dr. Lewam" },      // April 4
+  { opd: "Dr. Eden", ward: "Dr. Dawit" },       // April 5
+  { opd: "Dr. Helina", ward: "Dr. Genet" },     // April 6
+  { opd: "Dr. Lewam", ward: "Dr. Ribka" },      // April 7
+  { opd: "Dr. Eden", ward: "Dr. Dawit" },       // April 8
+  { opd: "Dr. Helina", ward: "Dr. Genet" },     // April 9
+  { opd: "Dr. Lewam", ward: "Dr. Ribka" },      // April 10
+  { opd: "Dr. Dawit", ward: "Dr. Eden" },       // April 11
+  { opd: "Dr. Genet", ward: "Dr. Helina" },     // April 12
+  { opd: "Dr. Ribka", ward: "Dr. Lewam" },      // April 13
+  { opd: "Dr. Dawit", ward: "Dr. Eden" },       // April 14
+  { opd: "Dr. Genet", ward: "Dr. Helina" },     // April 15
+  { opd: "Dr. Ribka", ward: "Dr. Lewam" },      // April 16
+  { opd: "Dr. Eden", ward: "Dr. Dawit" },       // April 17
+  { opd: "Dr. Helina", ward: "Dr. Genet" },     // April 18
+  { opd: "Dr. Lewam", ward: "Dr. Ribka" },      // April 19
+  { opd: "Dr. Eden", ward: "Dr. Dawit" },       // April 20
+  { opd: "Dr. Helina", ward: "Dr. Genet" },     // April 21
+  { opd: "Dr. Lewam", ward: "Dr. Ribka" },      // April 22
+  { opd: "Dr. Dawit", ward: "Dr. Eden" },       // April 23
+  { opd: "Dr. Genet", ward: "Dr. Helina" },     // April 24
+  { opd: "Dr. Ribka", ward: "Dr. Lewam" },      // April 25
+  { opd: "Dr. Dawit", ward: "Dr. Eden" },       // April 26
+  { opd: "Dr. Genet", ward: "Dr. Helina" },     // April 27
+  { opd: "Dr. Ribka", ward: "Dr. Lewam" },      // April 28
+  { opd: "Dr. Eden", ward: "Dr. Dawit" },       // April 29
+  { opd: "Dr. Helina", ward: "Dr. Genet" }      // April 30
 ];
 
-// For weekdays, the day shift is fixed. 
-// Current assignment for March 2025: 
-// OPD and ER: Dr. Genet, Ward and ICU: Dr. Miftah.
+// For any given date, use the April pattern by taking the day-of-month modulo 30.
+// (For days 1–30, use the corresponding index; for day 31, wrap to index 0.)
+function getNightDuty(date) {
+  let day = date.getDate();
+  let index = (day - 1) % 30; 
+  return aprilPattern[index];
+}
+
+// Fixed Day Shift for Weekdays
+// Current assignment (for the current 2-month period):
+//   OPD and ER: Dr. Genet
+//   Ward and ICU: Dr. Miftah
 function getDayShiftDuty(date) {
   return { opd: "Dr. Genet", ward: "Dr. Miftah" };
 }
 
-// To handle the night shift timing: if current time is before 8 AM, 
-// use the previous day’s duty (so that a Monday 1 AM shows Sunday’s night shift).
+// To handle the night shift display: if the current time is before 8 AM, show the previous day’s night duty.
 function getEffectiveNightDate(date) {
-  const effective = new Date(date);
+  let effective = new Date(date);
   if (date.getHours() < 8) {
     effective.setDate(effective.getDate() - 1);
   }
   return effective;
 }
 
-// Tab switching function
+// --- Tab Switching ---
 function openTab(evt, tabName) {
-  const tabcontent = document.getElementsByClassName("tabcontent");
+  let tabcontent = document.getElementsByClassName("tabcontent");
   for (let i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
-  const tablinks = document.getElementsByClassName("tablinks");
+  let tablinks = document.getElementsByClassName("tablinks");
   for (let i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
@@ -67,29 +75,18 @@ document.getElementById("defaultOpen").click();
 
 // Check if a date is weekend (Saturday or Sunday)
 function isWeekend(date) {
-  const day = date.getDay();
+  let day = date.getDay();
   return (day === 0 || day === 6);
 }
 
-// For March 2025, get the night shift duty from marchSchedule.
-// For other months, default to "N/A".
-function getNightDuty(date) {
-  if (date.getFullYear() === 2025 && date.getMonth() === 2) { // March = month 2
-    return marchSchedule[date.getDate() - 1];
-  } else {
-    return { opd: "N/A", ward: "N/A" };
-  }
-}
-
-// Display today's duty based on current time and day.
-// If current time is before 8 AM, use effective night shift date (previous day).
+// --- Display Today's Duty ---
 function displayTodayDuty() {
   const now = new Date();
   const display = document.getElementById("todayDisplay");
   let html = `<p><strong>Date:</strong> ${now.toLocaleDateString()}</p>`;
   
   if (now.getHours() < 8) {
-    // Before 8 AM: show only Night Shift for previous day.
+    // Before 8 AM, show previous day’s night shift
     const effectiveDate = getEffectiveNightDate(now);
     const duty = getNightDuty(effectiveDate);
     html += `
@@ -104,9 +101,8 @@ function displayTodayDuty() {
         <p><em>(Effective Date: ${effectiveDate.toLocaleDateString()})</em></p>
       </div>`;
   } else {
-    // 8 AM or later:
     if (isWeekend(now)) {
-      // On weekends, only one (night) shift is applicable.
+      // Weekends: only show Night Shift
       const duty = getNightDuty(now);
       html += `
         <div class="duty-section">
@@ -119,7 +115,7 @@ function displayTodayDuty() {
           </p>
         </div>`;
     } else {
-      // Weekdays: show both day and night shifts.
+      // Weekdays: show both Day and Night Shifts
       const dayDuty = getDayShiftDuty(now);
       const nightDuty = getNightDuty(now);
       html += `
@@ -146,7 +142,7 @@ function displayTodayDuty() {
   display.innerHTML = html;
 }
 
-// Call action: mapping phone numbers.
+// --- Call Action ---
 function callDoctor(doctor) {
   const numbers = {
     "Dr. Dawit": "+251920192199",
@@ -157,7 +153,7 @@ function callDoctor(doctor) {
     "Dr. Lewam": "+251934343144",
     "Dr. Miftah": "+251912280307"
   };
-  const num = numbers[doctor];
+  let num = numbers[doctor];
   if (num) {
     window.location.href = `tel:${num}`;
   } else {
@@ -165,7 +161,7 @@ function callDoctor(doctor) {
   }
 }
 
-// Select Date form event listener
+// --- Select Date Form ---
 document.getElementById("dateForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const dateVal = document.getElementById("dateInput").value;
@@ -208,9 +204,9 @@ document.getElementById("dateForm").addEventListener("submit", function(e) {
   }
 });
 
-// Populate month dropdown
+// --- Populate Month Dropdown ---
 const monthSelect = document.getElementById("monthSelect");
-const monthNames = [
+monthNames = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
@@ -221,62 +217,31 @@ monthNames.forEach((month, index) => {
   monthSelect.appendChild(option);
 });
 
-// DOC Export for Night Shift Schedule only
+// --- PDF Export for Night Shift Schedule ---
+// We now export a PDF using jsPDF. The PDF will show a table for the chosen month and year,
+// using the repeating night shift pattern (from the April pattern) for each day.
 document.getElementById("downloadForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const month = parseInt(document.getElementById("monthSelect").value);
   const year = document.getElementById("yearSelect").value;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   
-  // Build an HTML table for export
-  let tableHTML = `<table border="1" cellpadding="5" cellspacing="0">
-    <tr>
-      <th>Date</th>
-      <th>Night Shift - OPD and ER</th>
-      <th>Night Shift - Ward and ICU</th>
-    </tr>`;
-  
+  let pdfContent = `Night Shift Schedule for ${monthNames[month]} ${year}\n\n`;
+  pdfContent += "Date\tOPD and ER\tWard and ICU\n";
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
     let duty = getNightDuty(date);
-    tableHTML += `<tr>
-      <td>${year}-${month+1}-${day}</td>
-      <td>${duty.opd}</td>
-      <td>${duty.ward}</td>
-    </tr>`;
+    pdfContent += `${year}-${month+1}-${day}\t${duty.opd}\t${duty.ward}\n`;
   }
-  tableHTML += `</table>`;
   
-  // Wrap the table in a proper HTML document for Word
-  const htmlContent = `
-    <html xmlns:o='urn:schemas-microsoft-com:office:office' 
-          xmlns:w='urn:schemas-microsoft-com:office:word' 
-          xmlns='http://www.w3.org/TR/REC-html40'>
-      <head>
-        <meta charset="utf-8">
-        <title>Duty Schedule for ${monthNames[month]} ${year}</title>
-        <style>
-          table { width: 100%; border-collapse: collapse; }
-          th, td { border: 1px solid #000; padding: 8px; text-align: left; }
-          th { background-color: #FFDAB9; }
-        </style>
-      </head>
-      <body>
-        <h2>Duty Schedule for ${monthNames[month]} ${year} (Night Shift)</h2>
-        ${tableHTML}
-      </body>
-    </html>`;
-  
-  // Create a blob with proper MIME type and trigger download as .doc file
-  const blob = new Blob([htmlContent], { type: "application/vnd.ms-word" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `DutySchedule_${year}_${month+1}.doc`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  // Use jsPDF to generate the PDF
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(12);
+  const lines = doc.splitTextToSize(pdfContent, 180);
+  doc.text(lines, 10, 10);
+  doc.save(`NightShiftSchedule_${year}_${month+1}.pdf`);
 });
 
-// Display today's duty on page load
+// --- Initialize Today's Duty Display ---
 displayTodayDuty();
