@@ -30,7 +30,7 @@ const mayPattern = [
   { opd:"Dr. Lewam", ward:"Dr. Ribka" },    // 28
   { opd:"Dr. Dawit", ward:"Dr. Eden" },     // 29
   { opd:"Dr. Genet", ward:"Dr. Helina" },   // 30
-  { opd:"Dr. Dawit", ward:"Dr. Eden" }      // 31
+  { opd:"Dr. Ribka", ward:"Dr. Lewam" }      // 31
 ];
 
 // Helpers
