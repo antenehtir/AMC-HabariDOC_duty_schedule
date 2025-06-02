@@ -3,57 +3,109 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>American Medical Center Duty Schedule</title>
-  <link rel="stylesheet" href="style.css?v=1.4" />
+  <title>AMC & HabariDOC Duty Schedule</title>
+  <link rel="stylesheet" href="style.css?v=1.7" />
+  <!-- jsPDF + AutoTable for PDF with tables -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
   <div class="container">
     <header>
-      <img src="https://ethiojobs.info/wp-content/uploads/2022/03/American-Medical-Center-.jpg" id="logo" alt="AMC Logo"/>
+      <img src="https://ethiojobs.info/wp-content/uploads/2022/03/American-Medical-Center-.jpg"
+           id="logo" alt="AMC Logo" />
       <h1>American Medical Center Duty Schedule</h1>
     </header>
 
     <nav class="tabs">
       <button class="tablinks" onclick="openTab(event,'today')" id="defaultOpen">Today's Duty</button>
       <button class="tablinks" onclick="openTab(event,'selectDate')">Select Date</button>
-      <button class="tablinks" onclick="openTab(event,'download')">Download PDF</button>
+      <button class="tablinks" onclick="openTab(event,'download')">Download Schedule</button>
     </nav>
 
+    <!-- TODAY’S DUTY -->
     <section id="today" class="tabcontent">
       <h2>Today's Duty</h2>
-      <div id="todayDisplay"></div>
+      <div id="todayDepartment"></div>
+      <div id="todayCallCenter"></div>
     </section>
 
+    <!-- SELECT DATE -->
     <section id="selectDate" class="tabcontent">
       <h2>Select Date</h2>
       <form id="dateForm">
-        <label>Date: <input type="date" id="dateInput" required></label>
-        <label>Shift:
-          <select id="shiftSelect">
-            <option value="day">Day Shift</option>
-            <option value="night">Night Shift</option>
+        <label>
+          Category:
+          <select id="formCategory" class="fancy-select">
+            <option value="amc">AMC GP Schedule</option>
+            <option value="habari">HabariDOC Call Center GPs Schedule</option>
           </select>
         </label>
-        <button type="submit">Show</button>
+
+        <!-- AMC shift controls -->
+        <div id="amcControls">
+          <label>
+            AMC Shift:
+            <select id="deptShiftSelect" class="fancy-select">
+              <option value="day">Day Shift </option>
+              <option value="night">Night Shift</option>
+            </select>
+          </label>
+        </div>
+
+        <!-- HabariDOC shift controls -->
+        <div id="habariControls" style="display:none;">
+          <label>
+            HabariDOC Shift:
+            <select id="ccShiftSelect" class="fancy-select">
+              <option value="day">Day Shift</option>
+              <option value="night">Night Shift</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          Date:
+          <input type="date" id="dateInput" required />
+        </label>
+
+        <div class="form-buttons">
+          <button type="submit">Show Assignments</button>
+          <button type="button" id="resetBtn">Reset</button>
+        </div>
       </form>
-      <div id="selectedDisplay"></div>
+
+      <div id="selectedDept"></div>
+      <div id="selectedCallCenter"></div>
     </section>
 
+    <!-- DOWNLOAD SCHEDULE -->
     <section id="download" class="tabcontent">
-      <h2>Download Night Shift Schedule (PDF)</h2>
+      <h2>Download Monthly Schedule (PDF)</h2>
       <form id="downloadForm">
-        <label>Month:
-          <select id="monthSelect"></select>
+        <label>
+          Category:
+          <select id="categorySelect" class="fancy-select">
+            <option value="amc">AMC GP Schedule</option>
+            <option value="habari">HabariDOC Call Center GPs Schedule</option>
+          </select>
         </label>
-        <label>Year:
-          <input type="number" id="yearSelect" value="2025" min="2000" max="2100">
+
+        <label>
+          Month:
+          <select id="monthSelect" class="fancy-select"></select>
         </label>
-        <button type="submit" id="pdfExport">Download PDF</button>
+
+        <label>
+          Year:
+          <input type="number" id="yearSelect" value="2025" min="2000" max="2100" />
+        </label>
+
+        <button type="submit">Download as PDF</button>
       </form>
     </section>
   </div>
 
-  <script src="script.js?v=1.4"></script>
+  <script src="script.js?v=1.7"></script>
 </body>
 </html>
